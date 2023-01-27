@@ -1,0 +1,4 @@
+uploads
+venv
+*.pkl
+__pycache__

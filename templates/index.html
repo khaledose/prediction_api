@@ -1,0 +1,27 @@
+<html> 
+
+<head>
+<title>SVHN Model as a Flask API</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+<script>
+  var socket = io();
+  socket.on('task_completion', function(msg) {
+    console.log(msg)
+  });
+</script>
+</head>
+
+<body>
+
+    <h1>ACute Leukemia prediction</h1>
+
+    <form action="/predict" method="post" enctype="multipart/form-data">
+      <input type="file" name="image" value="Upload">
+      <input type="submit" value="Predict"> {% if label %} {{ label }} {% endif %}
+    </form>
+
+</body>
+
+</html>

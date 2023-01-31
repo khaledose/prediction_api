@@ -22,12 +22,12 @@
     ```
     python -m pip install --upgrade pip
     ```
-3. Install the required packages
+4. Install the required packages
     ```
     pip install -r requirements.txt
     ```
-4. Run the app:
+5. Run the app:
     ```
     python api.py
     ```
-5. Open http://localhost:8000 to view the application
+6. Open http://localhost:8000 to view the application

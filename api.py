@@ -6,21 +6,17 @@ import threading
 from werkzeug.utils import secure_filename
 import os
 from pathlib import Path
-from PIL import Image
+
+import cv2
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
 socketio = SocketIO(app)
 
 def preprocess_image(file):
-    img = Image.open(file).convert('L')
-    img = img.resize((4000,4000))
-    img = np.array(img)
-    img = np.reshape(img, (1,-1))
-    img = img/255.0
-    # img = cv2.imread(file, 0)
-    # img = cv2.resize(img, (4000,4000))
-    # img = img.reshape(1,-1)/255
+    img = cv2.imread(file, 0)
+    img = cv2.resize(img, (4000,4000))
+    img = img.reshape(1,-1)/255.0
     return img
 
 def process_prediction(**kwargs):

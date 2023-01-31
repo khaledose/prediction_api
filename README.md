@@ -18,6 +18,10 @@
         ```
         .\venv\Scripts\activate
         ```
+3. Upgrade pip
+    ```
+    python -m pip install --upgrade pip
+    ```
 3. Install the required packages
     ```
     pip install -r requirements.txt

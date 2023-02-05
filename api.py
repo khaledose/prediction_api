@@ -15,7 +15,7 @@ socketio = SocketIO(app)
 
 def preprocess_image(file):
     img = cv2.imread(file, 0)
-    img = cv2.resize(img, (4000,4000))
+    img = cv2.resize(img, (4000,4000), interpolation=cv2.INTER_CUBIC)
     img = img.reshape(1,-1)/255.0
     return img
 
@@ -29,7 +29,7 @@ def process_prediction(**kwargs):
     if label=='10': 
         label='0'
     
-    socketio.emit('task_completion', {'message': f'processing result: {label}'})
+    socketio.emit('task_completion', {'message': label})
 
 @app.route("/")
 @app.route("/index")

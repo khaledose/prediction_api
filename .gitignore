@@ -1,4 +1,5 @@
 uploads
+checkpoints
 venv
 *.pkl
 __pycache__

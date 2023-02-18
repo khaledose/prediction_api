@@ -1,35 +1,18 @@
 from flask import Flask, request, render_template
-from flask_socketio import SocketIO
-import numpy as np
-import joblib
-import threading
+from model import setup_model, run_prediction
 from werkzeug.utils import secure_filename
-import os
+from flask_socketio import SocketIO
 from pathlib import Path
-
-import cv2
+import threading
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
 socketio = SocketIO(app)
 
-def preprocess_image(file):
-    img = cv2.imread(file, 0)
-    img = cv2.resize(img, (4000,4000), interpolation=cv2.INTER_CUBIC)
-    img = img.reshape(1,-1)/255.0
-    return img
-
 def process_prediction(**kwargs):
     path = kwargs.get('image', {})
-    img = preprocess_image(path)
-
-    prediction = model.predict(img)
-
-    label = str(np.squeeze(prediction))
-    if label=='10': 
-        label='0'
-    
-    socketio.emit('task_completion', {'message': label})
+    label = run_prediction(model, path)
+    socketio.emit('task_completion', {'message': str(label)})
 
 @app.route("/")
 @app.route("/index")
@@ -57,5 +40,5 @@ def predict():
     return render_template('index.html', label='Prediction process is running')
 
 if __name__ == "__main__":
-    model = joblib.load(app.config['MODEL_PATH'])
+    model = setup_model(app.config['MODEL_PATH'])
     app.run(host="0.0.0.0", port=8000, debug=True)

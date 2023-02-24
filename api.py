@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask_socketio import SocketIO
 from pathlib import Path
 import threading
+import time
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -12,6 +13,7 @@ socketio = SocketIO(app)
 def process_prediction(**kwargs):
     path = kwargs.get('image', {})
     label = run_prediction(model, path)
+    time.sleep(0.1)
     socketio.emit('task_completion', {'message': str(label)})
 
 @app.route("/")
